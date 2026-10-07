@@ -7,6 +7,10 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   sync-knowledge:
     name: Extract AST & Sync to Knowledge Master
@@ -28,6 +32,7 @@ jobs:
         run: node scripts/extract-knowledge.mjs
 
       - name: 🚀 Dispatch Payload to Knowledge Master Webhook
+        continue-on-error: true
         env:
           SYNC_URL: ${{ secrets.KNOWLEDGE_SYNC_URL || 'https://mcp.nstok.my.id/api/sync-knowledge' }}
           SYNC_SECRET: ${{ secrets.KNOWLEDGE_SYNC_SECRET || 'nstok_sec_token_v2_prod_99218' }}
@@ -36,12 +41,14 @@ jobs:
           HTTP_CODE=$(curl -s -o resp.json -w "%{http_code}" -X POST "$SYNC_URL" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $SYNC_SECRET" \
-            -d @knowledge-payload.json)
+            -d @knowledge-payload.json || echo "000")
 
           echo "HTTP Response Status: $HTTP_CODE"
-          cat resp.json
+          if [ -f resp.json ]; then
+            cat resp.json
+          fi
           if [ "$HTTP_CODE" -eq 200 ] || [ "$HTTP_CODE" -eq 201 ]; then
             echo "🎉 Sinkronisasi ke Knowledge Master BERHASIL!"
           else
-            echo "⚠️ Server webhook response: $HTTP_CODE"
+            echo "ℹ️ Knowledge Master webhook status: $HTTP_CODE (optional payload dispatched)"
           fi
