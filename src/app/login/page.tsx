@@ -158,9 +158,23 @@ export default function LoginPage() {
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-4">
           {errorMessage && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center gap-2.5">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{errorMessage}</span>
+            <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-start gap-2.5">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p>{errorMessage}</p>
+                {isRegister && errorMessage.includes("sudah terdaftar") && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsRegister(false);
+                      setErrorMessage(null);
+                    }}
+                    className="text-emerald-400 hover:text-emerald-300 font-bold underline cursor-pointer block mt-1"
+                  >
+                    Klik di sini untuk langsung Masuk →
+                  </button>
+                )}
+              </div>
             </div>
           )}
 

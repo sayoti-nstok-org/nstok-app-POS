@@ -226,10 +226,46 @@ function isDbConnectionError(err?: string | null): boolean {
 
     // 2. Local Storage Fallback
     const registry = getUsersRegistry();
+    const existingIndex = registry.findIndex((u) => u.email.toLowerCase() === normalizedEmail);
 
-    // Check if email already registered
-    if (registry.some((u) => u.email.toLowerCase() === normalizedEmail)) {
-      return { success: false, error: "Alamat email ini sudah terdaftar. Silakan gunakan email lain atau masuk." };
+    // Jika akun dengan email ini sudah ada di registry lokal
+    if (existingIndex !== -1) {
+      const existingUser = registry[existingIndex];
+      // Jika password cocok ATAU belum menyelesaikan onboarding, langsung lanjutkan login sesi
+      if (!existingUser.password || existingUser.password === password || !existingUser.hasCompletedOnboarding) {
+        const session: UserSession = {
+          id: existingUser.id,
+          name: name.trim() || existingUser.name,
+          email: existingUser.email,
+          role: existingUser.role,
+          organizationId: existingUser.organizationId,
+          organizationName: existingUser.organizationName,
+          businessType: existingUser.businessType,
+          hasCompletedOnboarding: existingUser.hasCompletedOnboarding,
+          expiresAt: new Date(Date.now() + ONE_YEAR_SESSION_MS).toISOString(),
+        };
+
+        setUser(session);
+        saveToLocalStorage(AUTH_STORAGE_KEY, session);
+        syncSessionCookie(session);
+
+        const updatedAccount: UserAccount = {
+          ...existingUser,
+          name: name.trim() || existingUser.name,
+          password: password || existingUser.password,
+          isActive: true,
+        };
+        const updatedRegistry = [...registry];
+        updatedRegistry[existingIndex] = updatedAccount;
+        saveUsersRegistry(updatedRegistry);
+
+        return { success: true };
+      }
+
+      return {
+        success: false,
+        error: "Alamat email ini sudah terdaftar. Silakan beralih ke tab 'Masuk Sesi Akun' untuk login."
+      };
     }
 
     // Generate brand new unique workspace for this owner
