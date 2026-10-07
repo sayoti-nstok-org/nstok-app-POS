@@ -155,6 +155,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+function isDbConnectionError(err?: string | null): boolean {
+  if (!err) return false;
+  const lower = err.toLowerCase();
+  return (
+    lower.includes("enotfound") ||
+    lower.includes("econnrefused") ||
+    lower.includes("etimedout") ||
+    lower.includes("tenant/user") ||
+    lower.includes("not found") ||
+    lower.includes("password authentication failed") ||
+    lower.includes("failed to connect") ||
+    lower.includes("connection terminated") ||
+    lower.includes("could not connect") ||
+    lower.includes("database") ||
+    lower.includes("postgres") ||
+    lower.includes("sasl")
+  );
+}
+
   const register = async (
     name: string,
     email: string,
@@ -195,7 +214,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         return { success: true };
       } else if (cloudRes && !cloudRes.success) {
-        return { success: false, error: cloudRes.error };
+        if (isDbConnectionError(cloudRes.error)) {
+          console.warn("Cloud DB offline / unreachable, continuing with Offline-First Local Storage:", cloudRes.error);
+        } else {
+          return { success: false, error: cloudRes.error };
+        }
       }
     } catch (cloudErr) {
       console.warn("Cloud DB registration failed, falling back to local storage:", cloudErr);
@@ -295,7 +318,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             needsOnboarding: !cloudRes.user.hasCompletedOnboarding,
           };
         } else if (cloudRes && !cloudRes.success) {
-          return { success: false, error: cloudRes.error };
+          if (isDbConnectionError(cloudRes.error)) {
+            console.warn("Cloud DB offline / unreachable, continuing with Offline-First Local Storage:", cloudRes.error);
+          } else {
+            const registry = getUsersRegistry();
+            const existsLocally = registry.some((u) => u.email.toLowerCase() === normalizedEmail);
+            if (!existsLocally) {
+              return { success: false, error: cloudRes.error };
+            }
+          }
         }
       }
     } catch (cloudErr) {
