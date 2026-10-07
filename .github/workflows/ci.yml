@@ -16,7 +16,6 @@ concurrency:
 
 permissions:
   contents: read
-  packages: read
 
 jobs:
   validate-and-build:
@@ -33,23 +32,10 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@sayoti-nstok-org'
-
-      - name: Configure GitHub Packages Authentication
-        run: |
-          echo "@sayoti-nstok-org:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
 
       - name: Install dependencies
         run: |
-          if [ -f package-lock.json ]; then
-            npm ci || npm install
-          else
-            npm install
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          npm install --legacy-peer-deps
 
       - name: Run ESLint
         run: npm run lint
