@@ -2,10 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Store, Lock, Mail, User, ArrowRight, ShieldCheck, AlertCircle, CheckCircle2, Eye, EyeOff } from "lucide-react";
+import { Store, Lock, Mail, User, ArrowRight, AlertCircle, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,10 +33,10 @@ export default function LoginPage() {
   // Tampilkan loading screen jika sesi aktif sedang dialihkan
   if (authLoading || (isAuthenticated && user)) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-slate-950 text-slate-400">
+      <div className="min-h-screen w-full flex items-center justify-center bg-background text-muted-foreground">
         <div className="text-center space-y-3">
-          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs font-semibold">Memeriksa status sesi akun...</p>
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto glow-primary" />
+          <p className="text-xs font-bold text-foreground">Memeriksa status sesi akun...</p>
         </div>
       </div>
     );
@@ -108,23 +106,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-y-auto p-4 py-8 sm:py-12 flex flex-col justify-start items-center bg-slate-950 text-slate-100 font-sans">
-      <div className="w-full max-w-md my-auto bg-zinc-900 border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="min-h-screen w-full overflow-y-auto p-4 py-8 sm:py-12 flex flex-col justify-start items-center bg-background text-foreground font-sans">
+      <div className="w-full max-w-md my-auto bg-card border border-border rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Top Header */}
-        <div className="p-6 sm:p-8 bg-gradient-to-b from-emerald-500/10 to-transparent border-b border-zinc-800/80 text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-zinc-950 flex items-center justify-center font-black text-xl mx-auto shadow-lg shadow-emerald-500/20">
-            <Store className="w-6 h-6" />
+        <div className="p-6 sm:p-8 bg-gradient-to-b from-primary/20 via-card to-card border-b border-border text-center space-y-2.5">
+          <div className="w-14 h-14 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center font-black text-2xl mx-auto shadow-xl shadow-primary/30 glow-primary">
+            <Store className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-white">
+          <h1 className="text-3xl font-black tracking-tight text-foreground">
             &Stok
           </h1>
-          <p className="text-xs text-zinc-400">
-
+          <p className="text-xs text-muted-foreground font-semibold">
+            OmniPOS Multi-Arketipe Bisnis • Maximalism Edition
           </p>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex border-b border-zinc-800 bg-zinc-950/60 p-1.5">
+        <div className="flex border-b border-border bg-background/60 p-1.5">
           <button
             type="button"
             onClick={() => {
@@ -132,9 +130,9 @@ export default function LoginPage() {
               setErrorMessage(null);
               setSuccessMessage(null);
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${!isRegister
-              ? "bg-zinc-800 text-white shadow-sm"
-              : "text-zinc-400 hover:text-white"
+            className={`flex-1 py-2.5 text-xs font-black rounded-2xl transition-all cursor-pointer ${!isRegister
+              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+              : "text-muted-foreground hover:text-foreground"
               }`}
           >
             Masuk Sesi Akun
@@ -146,9 +144,9 @@ export default function LoginPage() {
               setErrorMessage(null);
               setSuccessMessage(null);
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${isRegister
-              ? "bg-zinc-800 text-white shadow-sm"
-              : "text-zinc-400 hover:text-white"
+            className={`flex-1 py-2.5 text-xs font-black rounded-2xl transition-all cursor-pointer ${isRegister
+              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+              : "text-muted-foreground hover:text-foreground"
               }`}
           >
             Daftar Akun Baru (Owner)
@@ -158,10 +156,10 @@ export default function LoginPage() {
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-4">
           {errorMessage && (
-            <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-start gap-2.5">
+            <div className="p-3.5 rounded-2xl bg-destructive/15 border border-destructive/30 text-destructive text-xs flex items-start gap-2.5 animate-in fade-in duration-200">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <p>{errorMessage}</p>
+                <p className="font-semibold">{errorMessage}</p>
                 {isRegister && errorMessage.includes("sudah terdaftar") && (
                   <button
                     type="button"
@@ -169,7 +167,7 @@ export default function LoginPage() {
                       setIsRegister(false);
                       setErrorMessage(null);
                     }}
-                    className="text-emerald-400 hover:text-emerald-300 font-bold underline cursor-pointer block mt-1"
+                    className="text-secondary hover:underline font-black cursor-pointer block mt-1"
                   >
                     Klik di sini untuk langsung Masuk →
                   </button>
@@ -179,66 +177,66 @@ export default function LoginPage() {
           )}
 
           {successMessage && (
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2.5">
+            <div className="p-3.5 rounded-2xl bg-secondary/15 border border-secondary/30 text-secondary text-xs flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
-              <span>{successMessage}</span>
+              <span className="font-bold">{successMessage}</span>
             </div>
           )}
 
           {isRegister && (
             <div>
-              <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-black text-foreground uppercase tracking-wider mb-1.5">
                 Nama Lengkap Pemilik
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <User className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Contoh: Bpk. Hendra Gunawan"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-background border border-border rounded-2xl pl-10 pr-4 py-2.5 text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-semibold"
                 />
               </div>
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-black text-foreground uppercase tracking-wider mb-1.5">
               Alamat Email {isRegister ? "Bisnis" : "Kasir / Staf"}
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 placeholder="nama@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500"
+                className="w-full bg-background border border-border rounded-2xl pl-10 pr-4 py-2.5 text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-semibold"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-black text-foreground uppercase tracking-wider mb-1.5">
               Kata Sandi
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-10 pr-10 py-2.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500"
+                className="w-full bg-background border border-border rounded-2xl pl-10 pr-10 py-2.5 text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-semibold"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -247,18 +245,18 @@ export default function LoginPage() {
 
           {isRegister && (
             <div>
-              <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-black text-foreground uppercase tracking-wider mb-1.5">
                 Konfirmasi Kata Sandi
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-muted-foreground absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-background border border-border rounded-2xl pl-10 pr-4 py-2.5 text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-semibold"
                 />
               </div>
             </div>
@@ -267,7 +265,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full mt-3 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:scale-98 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
+            className="w-full mt-3 py-3.5 px-4 bg-secondary hover:bg-secondary/90 active:scale-98 text-secondary-foreground font-black text-xs rounded-2xl shadow-xl shadow-secondary/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer glow-secondary"
           >
             <span>{isLoading ? "Memproses..." : isRegister ? "Daftar & Lanjut Pilih Bisnis" : "Masuk ke Kasir POS"}</span>
             <ArrowRight className="w-4 h-4" />
@@ -275,8 +273,8 @@ export default function LoginPage() {
         </form>
 
         {/* Footer Info */}
-        <div className="p-4 bg-zinc-950 border-t border-zinc-800/80 text-center">
-          <p className="text-[11px] text-zinc-500">
+        <div className="p-4 bg-background/80 border-t border-border text-center">
+          <p className="text-[11px] text-muted-foreground font-semibold">
             {isRegister
               ? "Pilihan jenis bisnis & nama toko akan diatur pada langkah berikutnya."
               : "Sistem otomatis mengarahkan ke workspace & katalog toko Anda."}

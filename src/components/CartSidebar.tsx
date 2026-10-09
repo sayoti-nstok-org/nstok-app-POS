@@ -229,19 +229,19 @@ export function CartSidebar({
             variant="outline"
             onClick={() => holdCurrentBill()}
             disabled={items.length === 0}
-            className="col-span-1 text-xs h-10"
+            className="col-span-1 text-xs h-11 rounded-2xl border-border hover:bg-muted font-bold"
           >
-            <Bookmark className="w-3.5 h-3.5 mr-1" />
+            <Bookmark className="w-3.5 h-3.5 mr-1 text-accent" />
             <span>Tahan</span>
           </Button>
 
           <Button
             onClick={onCheckout}
             disabled={items.length === 0}
-            className="col-span-2 text-xs font-bold h-10 shadow-md bg-green-600 hover:bg-green-700 text-white"
+            className="col-span-2 text-xs font-black h-11 rounded-2xl shadow-xl shadow-secondary/30 bg-secondary hover:bg-secondary/90 text-secondary-foreground transition-all hover:scale-[1.02] active:scale-95"
           >
             <CreditCard className="w-4 h-4 mr-1.5" />
-            <span>Bayar (F4)</span>
+            <span>Bayar (F4) →</span>
           </Button>
         </div>
       </div>

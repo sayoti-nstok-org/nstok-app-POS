@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, Barcode, Plus, Tag, AlertCircle, Check, Trash2 } from "lucide-react";
+import { Search, Tag, Trash2 } from "lucide-react";
 import { Product } from "@/db/schema";
 import { useCart } from "@/context/CartContext";
 import { useWorkspaceSettings } from "@/context/WorkspaceSettingsContext";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/atoms";
 
 export function ProductGrid({ 
   products,
@@ -42,27 +41,27 @@ export function ProductGrid({
   return (
     <div className="flex flex-col h-full space-y-3">
       {/* Search & Category Tabs */}
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Cari menu, SKU, atau scan barcode..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 text-xs"
+            className="pl-10 text-xs rounded-2xl bg-card border-border"
           />
         </div>
 
         {/* Category Pill Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
+              className={`px-4 py-2 rounded-2xl text-xs font-black whitespace-nowrap transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-105"
+                  : "bg-card text-muted-foreground hover:bg-muted hover:text-foreground border border-border"
               }`}
             >
               {cat === "ALL" ? "Semua Menu" : cat}
@@ -74,9 +73,9 @@ export function ProductGrid({
       {/* Grid List */}
       <div className="flex-1 overflow-y-auto pr-1">
         {filteredProducts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-48 border border-dashed border-border rounded-xl text-center p-6 space-y-2">
-            <Tag className="w-8 h-8 text-muted-foreground" />
-            <p className="text-xs font-semibold text-foreground">Tidak ada produk ditemukan</p>
+          <div className="flex flex-col items-center justify-center h-48 border border-dashed border-border rounded-2xl text-center p-6 space-y-2 bg-card/40">
+            <Tag className="w-8 h-8 text-primary" />
+            <p className="text-xs font-bold text-foreground">Tidak ada produk ditemukan</p>
             <p className="text-[11px] text-muted-foreground">Coba ubah kata kunci pencarian atau kategori.</p>
           </div>
         ) : (
@@ -90,13 +89,13 @@ export function ProductGrid({
                 <div
                   key={product.id}
                   onClick={() => !isOutOfStock && addToCart(product, 1)}
-                  className={`group relative rounded-2xl border border-border bg-card p-3 sm:p-3.5 flex flex-col justify-between transition-all select-none cursor-pointer hover:border-emerald-500/50 hover:shadow-md active:scale-95 touch-manipulation ${
+                  className={`group relative rounded-2xl border border-border bg-card p-3 sm:p-4 flex flex-col justify-between transition-all select-none cursor-pointer hover:border-primary hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 active:scale-95 touch-manipulation ${
                     isOutOfStock ? "opacity-50 pointer-events-none" : ""
                   }`}
                 >
                   {/* Top Badges */}
                   <div className="flex items-start justify-between gap-1 mb-2">
-                    <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider truncate">
+                    <span className="text-[10px] uppercase font-black text-muted-foreground tracking-wider truncate">
                       {product.category}
                     </span>
                     <div className="flex items-center gap-1">
@@ -106,14 +105,14 @@ export function ProductGrid({
                             e.stopPropagation();
                             onDeleteProduct(product.id);
                           }}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-foreground hover:text-destructive rounded"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-muted-foreground hover:text-destructive rounded-lg"
                           title="Hapus Produk"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       )}
                       {inCartQty > 0 && (
-                        <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground font-bold text-[11px] flex items-center justify-center shadow-xs">
+                        <span className="w-6 h-6 rounded-full bg-secondary text-secondary-foreground font-black text-xs flex items-center justify-center shadow-md shadow-secondary/40 animate-pulse">
                           {inCartQty}
                         </span>
                       )}
@@ -122,7 +121,7 @@ export function ProductGrid({
 
                   {/* Product Title & SKU */}
                   <div className="space-y-1 mb-3">
-                    <h3 className="font-bold text-sm text-foreground line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+                    <h3 className="font-black text-sm text-foreground line-clamp-2 leading-tight group-hover:text-primary transition-colors">
                       {product.name}
                     </h3>
                     <p className="text-[11px] text-muted-foreground font-mono">
@@ -131,24 +130,24 @@ export function ProductGrid({
                   </div>
 
                   {/* Bottom: Price & Stock Status */}
-                  <div className="pt-2 border-t border-border flex items-end justify-between">
+                  <div className="pt-2.5 border-t border-border flex items-end justify-between">
                     <div>
-                      <p className="text-xs font-bold text-primary">
+                      <p className="text-sm font-black text-primary">
                         {formatCurrency(parseFloat(product.sellingPrice))}
                       </p>
                       {product.wholesalePrice && (
-                        <p className="text-[10px] text-muted-foreground">
+                        <p className="text-[10px] text-muted-foreground font-semibold">
                           Grosir: {formatCurrency(parseFloat(product.wholesalePrice))} (≥{product.minWholesaleQty})
                         </p>
                       )}
                     </div>
 
-                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                    <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${
                       isOutOfStock
-                        ? "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400"
+                        ? "bg-destructive/20 text-destructive border border-destructive/30"
                         : isLowStock
-                        ? "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-400"
-                        : "bg-muted text-muted-foreground"
+                        ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+                        : "bg-secondary/15 text-secondary border border-secondary/30"
                     }`}>
                       {isOutOfStock ? "Habis" : `${product.stock} ${product.unit}`}
                     </span>

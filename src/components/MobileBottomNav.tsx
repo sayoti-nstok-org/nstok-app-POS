@@ -69,7 +69,7 @@ export function MobileBottomNav() {
     <>
       {/* Fixed Bottom Navigation Bar (Mobile / Tablet only: lg:hidden) */}
       <nav 
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-zinc-900/95 backdrop-blur-md border-t border-zinc-800 px-2 py-1.5 flex items-center justify-around shadow-2xl select-none"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-card/95 backdrop-blur-md border-t border-border px-2 py-1.5 flex items-center justify-around shadow-2xl select-none"
         style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
       >
         {primaryTabs.map((tab) => {
@@ -80,25 +80,25 @@ export function MobileBottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
-              className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all relative ${
+              className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all relative ${
                 isActive
-                  ? "text-emerald-400 font-bold"
-                  : "text-zinc-400 hover:text-zinc-200"
+                  ? "text-primary font-black scale-105"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               <div className="relative">
-                <Icon className={`w-5 h-5 transition-transform ${isActive ? "scale-110 text-emerald-400" : ""}`} />
+                <Icon className={`w-5 h-5 transition-transform ${isActive ? "scale-110 text-primary" : ""}`} />
                 {tab.badge && tab.badge > 0 && (
-                  <span className="absolute -top-1 -right-2.5 bg-emerald-600 text-white font-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1 -right-2.5 bg-secondary text-secondary-foreground font-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-md shadow-secondary/40">
                     {tab.badge > 99 ? "99+" : tab.badge}
                   </span>
                 )}
               </div>
-              <span className={`text-[10px] mt-1 ${isActive ? "font-bold text-emerald-400" : "font-medium text-zinc-400"}`}>
+              <span className={`text-[10px] mt-1 ${isActive ? "font-black text-primary" : "font-semibold text-muted-foreground"}`}>
                 {tab.name}
               </span>
               {isActive && (
-                <span className="w-1 h-1 rounded-full bg-emerald-400 mt-0.5" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary mt-0.5 shadow-sm shadow-primary" />
               )}
             </Link>
           );
@@ -107,12 +107,12 @@ export function MobileBottomNav() {
         {/* More Menu Drawer Trigger */}
         <button
           onClick={() => setDrawerOpen(true)}
-          className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl text-zinc-400 hover:text-zinc-200 cursor-pointer ${
-            drawerOpen ? "text-emerald-400 font-bold" : ""
+          className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-2xl text-muted-foreground hover:text-foreground cursor-pointer ${
+            drawerOpen ? "text-primary font-black" : ""
           }`}
         >
           <MoreHorizontal className="w-5 h-5" />
-          <span className="text-[10px] mt-1 font-medium">Menu</span>
+          <span className="text-[10px] mt-1 font-semibold">Menu</span>
         </button>
       </nav>
 
@@ -127,17 +127,17 @@ export function MobileBottomNav() {
 
           {/* Drawer Sheet */}
           <div 
-            className="relative z-50 bg-zinc-900 border-t border-zinc-800 rounded-t-3xl p-5 shadow-2xl max-h-[85vh] overflow-y-auto space-y-4 animate-in slide-in-from-bottom duration-300 text-zinc-100"
+            className="relative z-50 bg-card border-t border-border rounded-t-3xl p-5 shadow-2xl max-h-[85vh] overflow-y-auto space-y-4 animate-in slide-in-from-bottom duration-300 text-foreground"
             style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+            <div className="flex items-center justify-between pb-3 border-b border-border">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                <div className="w-9 h-9 rounded-2xl bg-primary/20 border border-primary/40 text-primary flex items-center justify-center font-black">
                   <Store className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm text-zinc-100">{settings.businessName}</h3>
+                  <h3 className="font-black text-sm text-foreground">{settings.businessName}</h3>
                   <p className="text-[11px] text-zinc-400">{user?.role} • {user?.name}</p>
                 </div>
               </div>

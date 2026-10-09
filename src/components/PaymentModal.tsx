@@ -192,16 +192,16 @@ export function PaymentModal({
           </div>
         )}
 
-        <DialogFooter className="mt-6 flex gap-2">
-          <Button variant="outline" onClick={onClose} disabled={isProcessing} className="flex-1">
+        <DialogFooter className="mt-6 flex gap-2.5">
+          <Button variant="outline" onClick={onClose} disabled={isProcessing} className="flex-1 rounded-2xl h-11 border-border font-bold">
             Batal
           </Button>
           <Button
             onClick={handleProcessPayment}
             disabled={!isSufficient || isProcessing}
-            className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold"
+            className="flex-1 bg-secondary hover:bg-secondary/90 text-secondary-foreground font-black h-11 rounded-2xl shadow-xl shadow-secondary/30 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
           >
-            {isProcessing ? "Memproses Transaksi..." : "Selesaikan Bayar (Enter)"}
+            {isProcessing ? "Memproses Transaksi..." : "Selesaikan Bayar (Enter) →"}
           </Button>
         </DialogFooter>
       </DialogContent>

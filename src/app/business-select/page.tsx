@@ -87,43 +87,43 @@ export default function BusinessSelectPage() {
 
   if (authLoading || !user) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-zinc-950 text-zinc-400">
+      <div className="min-h-screen w-full flex items-center justify-center bg-background text-muted-foreground">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-emerald-500" />
-          <p className="text-xs">Memuat konfigurasi workspace...</p>
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-primary" />
+          <p className="text-xs font-bold text-foreground">Memuat konfigurasi workspace...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full overflow-y-auto p-4 sm:p-8 py-8 sm:py-12 bg-zinc-950 text-zinc-100 font-sans flex flex-col justify-start items-center">
+    <div className="min-h-screen w-full overflow-y-auto p-4 sm:p-8 py-8 sm:py-12 bg-background text-foreground font-sans flex flex-col justify-start items-center">
       <div className="w-full max-w-4xl space-y-6 my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold mb-1">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/20 border border-primary/40 text-primary text-xs font-black mb-1 glow-primary">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Onboarding Toko Baru: {user.name}</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
             Pilih Jenis Usaha & Konfigurasi Toko Anda
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 max-w-lg mx-auto">
-            Sistem nstok-APP-pos akan otomatis menyiapkan template produk dan mengaktifkan modul khusus (KDS Dapur, Denah Meja, Barcode Scanner, Work Order, atau Tiered Pricing) untuk workspace toko Anda.
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto font-medium">
+            Sistem nstok-APP-pos akan otomatis menyiapkan template produk dan mengaktifkan modul khusus untuk workspace toko Anda.
           </p>
         </div>
 
         {/* Business Name Input Card */}
-        <div className="max-w-md mx-auto p-5 rounded-3xl border border-zinc-800 bg-zinc-900/80 shadow-xl space-y-2 backdrop-blur-sm">
-          <label className="text-xs font-bold text-zinc-200 uppercase tracking-wider flex items-center gap-1.5">
-            <Store className="w-4 h-4 text-emerald-400" />
+        <div className="max-w-md mx-auto p-5 rounded-3xl border border-border bg-card shadow-2xl space-y-2 backdrop-blur-md">
+          <label className="text-xs font-black text-foreground uppercase tracking-wider flex items-center gap-1.5">
+            <Store className="w-4 h-4 text-primary" />
             <span>Nama Bisnis / Toko Anda</span>
           </label>
           <input
             placeholder="Contoh: Kopi Kenangan, Minimarket Berkah, dll"
             value={customBusinessName}
             onChange={(e) => setCustomBusinessName(e.target.value)}
-            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500 font-medium"
+            className="w-full bg-background border border-border rounded-2xl px-4 py-2.5 text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-bold"
           />
         </div>
 
@@ -139,32 +139,32 @@ export default function BusinessSelectPage() {
                 onClick={() => setSelectedType(type)}
                 className={`p-5 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 ${
                   isSelected
-                    ? "border-emerald-500 bg-emerald-500/10 shadow-xl shadow-emerald-500/10 ring-2 ring-emerald-500/80"
-                    : "border-zinc-800/80 bg-zinc-900/60 hover:bg-zinc-800/50"
+                    ? "border-primary bg-primary/15 shadow-2xl shadow-primary/20 ring-2 ring-primary scale-[1.02]"
+                    : "border-border bg-card hover:bg-muted/50 hover:border-border/80"
                 }`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                      isSelected ? "bg-emerald-500 text-zinc-950" : "bg-zinc-800 text-zinc-300"
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black ${
+                      isSelected ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30" : "bg-muted text-muted-foreground"
                     }`}>
                       {getArchetypeIcon(type)}
                     </div>
-                    {isSelected && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
+                    {isSelected && <CheckCircle2 className="w-5 h-5 text-secondary animate-in zoom-in-50" />}
                   </div>
 
                   <div>
-                    <h3 className="font-black text-base text-white">{info.name}</h3>
-                    <span className="text-[11px] font-bold text-emerald-400">Vertikal {info.badge}</span>
+                    <h3 className="font-black text-base text-foreground">{info.name}</h3>
+                    <span className="text-[11px] font-bold text-secondary">Vertikal {info.badge}</span>
                   </div>
 
-                  <div className="space-y-1 pt-2 border-t border-zinc-800/80">
-                    <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider block">
+                  <div className="space-y-1 pt-2 border-t border-border">
+                    <span className="text-[10px] uppercase font-black text-muted-foreground tracking-wider block">
                       Modul Otomatis:
                     </span>
                     <div className="flex flex-wrap gap-1">
                       {info.features.map((feat) => (
-                        <span key={feat} className="text-[10px] bg-zinc-950 border border-zinc-800 text-zinc-300 px-2 py-0.5 rounded-md">
+                        <span key={feat} className="text-[10px] font-bold bg-background border border-border text-foreground px-2 py-0.5 rounded-full">
                           {feat}
                         </span>
                       ))}
@@ -181,7 +181,7 @@ export default function BusinessSelectPage() {
           <button
             onClick={handleSelectAndProceed}
             disabled={isSubmitting}
-            className="w-full sm:w-auto min-w-[280px] py-3.5 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-black text-sm shadow-xl shadow-emerald-600/25 flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
+            className="w-full sm:w-auto min-w-[280px] py-4 px-8 rounded-2xl bg-secondary hover:bg-secondary/90 active:scale-95 text-secondary-foreground font-black text-sm shadow-xl shadow-secondary/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer glow-secondary"
           >
             {isSubmitting ? (
               <Loader2 className="w-5 h-5 animate-spin" />
